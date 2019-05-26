@@ -5,7 +5,6 @@
 * According that Moblie App usually doesn't have complicated SQL queries, following SQL expression are supported: 
   * `select`, `delete`, `where`, `orderBy`, `groupBy`, `limit`, `offset`, `or`,`and`
   * most comparision operator (excluding non-essential ones like `between`, `exists`...)
-  * 
 * v2.0 + Method Chaining
   * try to keep the same expressive as raw SQL 
 
