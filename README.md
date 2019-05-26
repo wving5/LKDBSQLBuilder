@@ -1,13 +1,19 @@
-# LKDBSearchHelper
+# LKDBSQLBuilder (derived from LKDBSearchHelper)
 
 
-#### #说明
-* 鉴于移动端通常没有过于复杂的查询, 支持的 SQL 语义为: 
+#### #Note
+* According that Moblie App usually doesn't have complicated SQL queries, following SQL expression are supported: 
   * `select`, `delete`, `where`, `orderBy`, `groupBy`, `limit`, `offset`, `or`,`and`
-  * 绝大部分 比较运算符 (排除 between, exists 之类)
-* 支持 `where` 条件嵌套
-* v2.0 +链式语法糖
+  * most comparision operator (excluding non-essential ones like `between`, `exists`...)
+  * 
+* v2.0 + Method Chaining
+  * try to keep the same expressive as raw SQL 
 
+
+#### #Install
+
+~~`pod 'LKDBSearchHelper', '~> 1.4'`~~
+Instead, pls do it manually...
 
 ### #Requirements
 
@@ -15,13 +21,6 @@
 * ARC only 
 * FMDB([https://github.com/ccgus/fmdb](https://github.com/ccgus/fmdb))
 * LKDBHelper-SQLite-ORM([https://github.com/li6185377/LKDBHelper-SQLite-ORM](https://github.com/li6185377/LKDBHelper-SQLite-ORM))
-
-
-#### #引用
-
-```ruby	 
-    pod 'LKDBSearchHelper', '~> 2.0'
-```
 
 
 #### #SQL `where` condition builder
@@ -107,8 +106,11 @@
       ).orderBy(nil).groupBy(nil).limit(0).offset(0).execIn(_get_using_LKDBHelper_from_somewhere_);
 
     // Here, orderBy, groupBy should be RAW SQL format
-
-
+	.orderBy(@"colA DESC, colB ASC") // use `case when X then...` to have more control on sorting if needed
+	.groupBy(@"colA, colB")
+	// or
+	.orderBy(@[@"colA DESC", @"colB ASC"])
+	.groupBy(@[@"colA", @"colB"])
 
 
     // SQL: Delete
@@ -147,5 +149,6 @@ Also, you can use `FMDatabase+Debug.h` in the DEMO project which intercepting FM
     
 #### #Co-op with LKDB
 
-LKDB requires raw SQL should be lowerCase, you could do that by flip the macro flag `SQL_KEYWORD_UPPERCASE` in `LKDBSQLConstant.h`
-Also, you could see some convenience macro there, but use with caution though (it may cause problem for Xcode auto-indent / auto-complete, and somehow tricky :)
+LKDB requires raw SQL should be **lowerCase**, you could do that by flip the macro flag `SQL_KEYWORD_UPPERCASE` in `LKDBSQLConstant.h`
+
+Also, you could see some convenience macro there, but **use with caution** though (it may cause problem for Xcode auto-indent / auto-complete, and somehow tricky :)
